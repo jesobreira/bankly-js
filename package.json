@@ -1,0 +1,33 @@
+{
+  "name": "bankly",
+  "version": "1.0.0",
+  "description": "Javascript bindings for Acesso Bankly API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jesobreira/bankly-js.git"
+  },
+  "keywords": [
+    "baas",
+    "bank",
+    "service",
+    "transfer",
+    "real",
+    "brazil",
+    "ted"
+  ],
+  "author": "Jefrey S. Santos <jefrey.santos@capitual.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jesobreira/bankly-js/issues"
+  },
+  "homepage": "https://github.com/jesobreira/bankly-js#readme",
+  "dependencies": {
+    "node-fetch": "^2.6.0",
+    "qs": "^6.9.1",
+    "uuid": "^7.0.2"
+  }
+}
