@@ -28,6 +28,12 @@ const Bankly = require('bankly')
 let bankly = new Bankly('client_id', 'client_secret')
 ```
 
+If you are using the sandbox environment, just do:
+
+```javascript
+let bankly = new Bankly('client_id', 'client_secret', 'sandbox')
+```
+
 ### Getting account balance
 
 Provide the branch and account number (without hyphen) to get the balance.

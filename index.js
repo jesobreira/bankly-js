@@ -9,6 +9,9 @@ if (typeof fetch === 'undefined')
 const API_ENDPOINT = 'https://api.acessobank.com.br/baas'
 const LOGIN_ENDPOINT = 'https://login.acessobank.com.br'
 
+const API_ENDPOINT_STAGING = 'https://api.sandbox.bankly.com.br/baas'
+const LOGIN_ENDPOINT_STAGING = 'https://login.acessobank-stg.com.br'
+
 const getBankList = () =>
 	fetch(API_ENDPOINT + '/banklist').then(res => res.json())
 
@@ -19,12 +22,25 @@ class BankAccount {
 }
 
 class Bankly {
-	constructor(client_id, client_secret) {
+	constructor(client_id, client_secret, env = 'prod') {
 		this.client_id = client_id;
 		this.client_secret = client_secret;
 		this.token_expiry = 0;
 		this.token = null;
+		this.env = env
 		this.debug = () => {}
+	}
+
+	_getHost() {
+		return this.env === 'prod' ?
+			API_ENDPOINT :
+			API_ENDPOINT_STAGING
+	}
+
+	_getAuthHost() {
+		return this.env === 'prod' ?
+			LOGIN_ENDPOINT :
+			LOGIN_ENDPOINT_STAGING
 	}
 
 	async _get(endpoint, variables = false) {
@@ -41,7 +57,7 @@ class Bankly {
 				"API-Version": "1.0"
 			}
 		}
-		return fetch(API_ENDPOINT + endpoint + '?' + qs.stringify(variables), init)
+		return fetch(this._getHost() + endpoint + '?' + qs.stringify(variables), init)
 			.then(res => res.json())
 	}
 
@@ -61,7 +77,7 @@ class Bankly {
 			} : undefined,
 			body: variables ? qs.stringify(variables) : null
 		}
-		return fetch(API_ENDPOINT + endpoint, init)
+		return fetch(this._getHost() + endpoint, init)
 			.then(res => res.json())
 	}
 
@@ -81,7 +97,7 @@ class Bankly {
 			} : undefined,
 			body: variables ? JSON.stringify(variables) : null
 		}
-		return fetch(API_ENDPOINT + endpoint, init)
+		return fetch(this._getHost() + endpoint, init)
 			.then(res => res.json())
 	}
 
@@ -98,7 +114,7 @@ class Bankly {
 				client_secret: this.client_secret
 			}) 
 		}
-		return fetch(LOGIN_ENDPOINT + '/connect/token', init)
+		return fetch(this._getAuthHost() + '/connect/token', init)
 			.then(res => res.json())
 			.then(res => {
 				this.debug("Access token retrieved")
@@ -139,6 +155,15 @@ class Bankly {
 
 	static get bankList() {
 		return getBankList()	
+	}
+
+	// boletos
+	validateBoleto(code) {
+		return this._postJSON('/bill-payment/validate', { code })
+	}
+
+	getCarriers() {
+		return this._get('')
 	}
 }
 
