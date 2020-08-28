@@ -4,6 +4,8 @@ Unnofficial Javascript class to access [Bankly](http://bankly.com.br/) (by [Aces
 
 [API Docs here.](https://bankly.readme.io/)
 
+[PHP port here.](https://github.com/jesobreira/bankly-php)
+
 ## Installing
 
 This class is available at NPM.
