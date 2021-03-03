@@ -13,7 +13,7 @@ const API_ENDPOINT_STAGING = 'https://api.sandbox.bankly.com.br'
 const LOGIN_ENDPOINT_STAGING = 'https://login.acessobank-stg.com.br'
 
 const getBankList = () =>
-	fetch('https://api.bankly.com.br/baas/banklist').then(res => res.json())
+	fetch(API_ENDPOINT + '/banklist').then(res => res.json())
 
 class BankAccount {
 	constructor({ bankCode = 332, branch, account, document, name }) {
