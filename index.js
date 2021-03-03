@@ -6,10 +6,10 @@ const uuidv4 = require('uuid').v4
 if (typeof fetch === 'undefined')
 	var fetch = require('node-fetch')
 
-const API_ENDPOINT = 'https://api.acessobank.com.br/baas'
-const LOGIN_ENDPOINT = 'https://login.acessobank.com.br'
+const API_ENDPOINT = 'https://api.bankly.com.br'
+const LOGIN_ENDPOINT = 'https://login.bankly.com.br'
 
-const API_ENDPOINT_STAGING = 'https://api.sandbox.bankly.com.br/baas'
+const API_ENDPOINT_STAGING = 'https://api.sandbox.bankly.com.br'
 const LOGIN_ENDPOINT_STAGING = 'https://login.acessobank-stg.com.br'
 
 const getBankList = () =>
