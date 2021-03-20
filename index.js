@@ -43,7 +43,7 @@ class Bankly {
 			LOGIN_ENDPOINT_STAGING
 	}
 
-	async _get(endpoint, variables = false) {
+	async _get(endpoint, variables = false, headers = {}) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
 			await this._doAuth()
@@ -54,14 +54,15 @@ class Bankly {
 			headers: {
 				"Authorization": this.token ? "Bearer "+this.token : undefined,
 				"X-Correlation-ID": uuidv4(),
-				"API-Version": "1.0"
+				"API-Version": "1.0",
+				...headers
 			}
 		}
 		return fetch(this._getHost() + endpoint + '?' + qs.stringify(variables), init)
 			.then(res => res.json())
 	}
 
-	async _post(endpoint, variables = false) {
+	async _post(endpoint, variables = false, headers = {}) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
 			await this._doAuth()
@@ -73,15 +74,16 @@ class Bankly {
 				"Content-Type": "application/x-www-form-urlencoded",
 				"Authorization": this.token ? "Bearer "+this.token : undefined,
 				"X-Correlation-ID": uuidv4(),
-				"API-Version": "1.0"
-			} : undefined,
+				"API-Version": "1.0",
+				...headers
+			} : (headers || undefined),
 			body: variables ? qs.stringify(variables) : null
 		}
 		return fetch(this._getHost() + endpoint, init)
 			.then(res => res.json())
 	}
 
-	async _postJSON(endpoint, variables = false) {
+	async _postJSON(endpoint, variables = false, headers = {}) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
 			await this._doAuth()
@@ -93,8 +95,9 @@ class Bankly {
 				"Content-Type": "application/json",
 				"Authorization": this.token ? "Bearer "+this.token : undefined,
 				"X-Correlation-ID": uuidv4(),
-				"API-Version": "1.0"
-			} : undefined,
+				"API-Version": "1.0",
+				...headers
+			} : (headers || undefined),
 			body: variables ? JSON.stringify(variables) : null
 		}
 		return fetch(this._getHost() + endpoint, init)

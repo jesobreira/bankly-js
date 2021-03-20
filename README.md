@@ -169,3 +169,21 @@ You can define a function that receives debug logs (as strings) from your instan
 ```javascript
 bankly.debug = console.log
 ```
+
+### Directly calling the API
+
+You can use these functions to direct call the API without having to care about the authorization step:
+
+```javascript
+bankly._get()
+bankly._post()
+bankly._postJSON()
+```
+
+All these functions receive three arguments:
+
+- path (string): the path to call (starting with slash)
+- variables (object, default is false): a key-value object containing variables you want to send. They will be sent as query parameters for `_get()`, as URLEncoded body for `_post()` or as JSON-encoded body for `_postJSON()`.
+- headers: a key-value object containing additional headers
+
+These functions return a promise that resolve to a JSON object, decoded from the API response.
