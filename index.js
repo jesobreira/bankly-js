@@ -10,7 +10,7 @@ const API_ENDPOINT = 'https://api.bankly.com.br'
 const LOGIN_ENDPOINT = 'https://login.bankly.com.br'
 
 const API_ENDPOINT_STAGING = 'https://api.sandbox.bankly.com.br'
-const LOGIN_ENDPOINT_STAGING = 'https://login.acessobank-stg.com.br'
+const LOGIN_ENDPOINT_STAGING = 'https://login.sandbox.bankly.com.br'
 
 const getBankList = () =>
 	fetch(API_ENDPOINT + '/banklist').then(res => res.json())
