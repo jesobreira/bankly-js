@@ -62,6 +62,28 @@ class Bankly {
 			.then(res => res.json())
 	}
 
+	async _getRAW(endpoint, variables = false) {
+		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
+			this.debug("Token has expired")
+      await this._doAuth()
+		}
+    
+
+		let init = {
+			method: 'GET',
+			headers: {
+        "Authorization": this.token ? "Bearer "+this.token : undefined,
+				"X-Correlation-ID": uuidv4(),
+				"API-Version": "1.0"
+			}
+		}
+    const data = fetch(this._getHost() + endpoint + '?' + qs.stringify(variables), init).then(res => { 
+      return res  
+     });
+
+		return data
+	}
+
 	async _post(endpoint, variables = false, headers = {}) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
