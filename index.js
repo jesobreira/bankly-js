@@ -168,6 +168,24 @@ class Bankly {
 		.then(res => res.json())
 	}
 
+	async _deleteRawNV(endpoint) {
+        if (Math.floor(new Date().getTime() / 1000) > this.token_expiry) {
+            this.debug('Token has expired');
+            await this._doAuth();
+        }
+        const init = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: this.token ? `Bearer ${this.token}` : undefined,
+                'X-Correlation-ID': uuidv4(),
+                'API-Version': '1.0',
+            }
+        };
+        return fetch(this._getHost() + endpoint, init)
+            .then((res) => res);
+    }
+
 	_doAuth() {
 		this.debug("Will perform auth")
 		let init = {
