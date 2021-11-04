@@ -147,6 +147,43 @@ class Bankly {
 			.then(res => res.json())
 	}
 
+	async _patchJSON(endpoint, variables = false) {
+		if (Math.floor(new Date().getTime() / 1000) > this.token_expiry) {
+			this.debug("Token has expired")
+			await this._doAuth()
+		}
+		let init = {
+			method: 'PATCH',
+			headers: variables ? {
+				"Content-Type": "application/json",
+				"Authorization": this.token ? "Bearer " + this.token : undefined,
+				"X-Correlation-ID": uuidv4(),
+				"API-Version": "1.0"
+			} : undefined,
+			body: variables ? JSON.stringify(variables) : null
+		}
+		return fetch(this._getHost() + endpoint, init)
+			.then(res => res.json())
+	}
+
+	async _patchRAW(endpoint, variables = false) {
+		if (Math.floor(new Date().getTime() / 1000) > this.token_expiry) {
+			this.debug("Token has expired")
+			await this._doAuth()
+		}
+		let init = {
+			method: 'PATCH',
+			headers: variables ? {
+				"Content-Type": "application/json",
+				"Authorization": this.token ? "Bearer " + this.token : undefined,
+				"X-Correlation-ID": uuidv4(),
+				"API-Version": "1.0"
+			} : undefined,
+			body: variables ? JSON.stringify(variables) : null
+		}
+		return fetch(this._getHost() + endpoint, init).then(res => { return res });
+	}
+
 	async _deleteJSON(endpoint, variables = false) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
