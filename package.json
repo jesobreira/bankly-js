@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/jesobreira/bankly-js#readme",
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^3.1.1",
     "qs": "^6.9.1",
     "uuid": "^7.0.2"
   }
