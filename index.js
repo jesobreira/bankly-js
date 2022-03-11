@@ -125,6 +125,27 @@ class Bankly {
 		return fetch(this._getHost() + endpoint, init)
 			.then(res => res.json())
 	}
+	
+	async _postRAW(endpoint, variables = false, headers = {}) {
+		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
+			this.debug("Token has expired")
+			await this._doAuth()
+		}
+
+		let init = {
+			method: 'POST',
+			headers: variables ? {
+				"Content-Type": "application/json",
+				"Authorization": this.token ? "Bearer "+this.token : undefined,
+				"X-Correlation-ID": uuidv4(),
+				"API-Version": "1.0",
+				...headers
+			} : (headers || undefined),
+			body: variables ? JSON.stringify(variables) : null
+		}
+		return fetch(this._getHost() + endpoint, init)
+			.then(res => {return res})
+	}
 
 	async _putJSON(endpoint, variables = false) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
@@ -145,6 +166,27 @@ class Bankly {
 
 		return fetch(this._getHost() + endpoint, init)
 			.then(res => res.json())
+	}
+
+	async _putRAW(endpoint, variables = false) {
+		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
+			this.debug("Token has expired")
+			await this._doAuth()
+		}
+
+		let init = {
+			method: 'PUT',
+			headers: variables ? {
+				"Content-Type": "application/json",
+				"Authorization": this.token ? "Bearer "+this.token : undefined,
+				"X-Correlation-ID": uuidv4(),
+				"API-Version": "1.0"
+			} : undefined,
+			body: variables ? JSON.stringify(variables) : null
+		}
+
+		return fetch(this._getHost() + endpoint, init)
+			.then(res => {return res})
 	}
 
 	async _patchJSON(endpoint, variables = false) {
