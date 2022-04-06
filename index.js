@@ -43,7 +43,7 @@ class Bankly {
 			LOGIN_ENDPOINT_STAGING
 	}
 
-	async _get(endpoint, variables = false, headers = {}) {
+  async _get(endpoint, variables = false, headers = {}) {
 		if (Math.floor(new Date().getTime()/1000) > this.token_expiry) {
 			this.debug("Token has expired")
 			await this._doAuth()
@@ -58,7 +58,12 @@ class Bankly {
 				...headers
 			}
 		}
-		return fetch(this._getHost() + endpoint + '?' + qs.stringify(variables), init)
+		
+		const NEEDS_INTERROGATION_SYMBOL = Boolean(Object.keys(variables)?.length > 0)
+
+		const url = `${this._getHost()}${endpoint}${NEEDS_INTERROGATION_SYMBOL ? '?' : ''}${NEEDS_INTERROGATION_SYMBOL ? qs.stringify(variables) : ''}`
+
+		return fetch(url, init)
 			.then(res => res.json())
 	}
 
