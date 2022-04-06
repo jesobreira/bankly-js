@@ -1,6 +1,6 @@
 {
   "name": "bankly",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "Javascript bindings for Acesso Bankly API",
   "main": "index.js",
   "scripts": {
